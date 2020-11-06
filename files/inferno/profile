@@ -1,22 +1,28 @@
 load std
 
 MNT_DIR=/n/blackboxfs
+MNT2_DIR=/n/blackboxfs2
+TMP_DIR=/tmp/test
 
 test -d $MNT_DIR || mkdir -p $MNT_DIR
+test -d $MNT2_DIR || mkdir -p $MNT2_DIR
+test -d $TMP_DIR || mkdir -p $TMP_DIR
  
 
 cd /host/blackboxfs/src
 limbo -gw blackboxfs.b
 
-ls
+date > $TMP_DIR^/since
+
 mount {blackboxfs} $MNT_DIR
+mount {blackboxfs} $MNT2_DIR
 
-mkdir -p /tmp/test
-touch /tmp/test/a
-
-bind /tmp/test $MNT_DIR/out
-
+bind $TMP_DIR $MNT_DIR^/in 
+bind $MNT_DIR^/out $MNT2_DIR^/in
 
 ns
 cd $MNT_DIR
 lc -l
+
+ls $MNT_DIR^/in/
+cat $MNT_DIR^/in/since
