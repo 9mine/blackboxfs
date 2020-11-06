@@ -12,3 +12,5 @@ ls
 mount {blackboxfs} $MNT_DIR
 
 ns
+cd $MNT_DIR
+lc -l

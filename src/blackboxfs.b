@@ -15,11 +15,19 @@ HelloFS: module {
 	init: fn(ctxt: ref Draw->Context, args: list of string);
 };
 
-Qroot, Qhello, Qmax: con iota;
+Qroot, Qin, Qout, Qhello, Qin_alice, Qin_bob, Qmax: con iota;
 tab := array[] of {
 	(Qroot, ".", Sys->DMDIR|8r555),
+	(Qin, "in", Sys->DMDIR|8r555),
+	(Qout, "out", Sys->DMDIR|8r555),
 	(Qhello, "hello", 8r444),
 };
+
+in_tab := array[] of {
+	(Qin, ".", Sys->DMDIR|8r555),
+	(Qin_alice, "alice", Sys->DMDIR|8r555),
+	(Qin_bob, "bob", Sys->DMDIR|8r555),
+}; 
 
 user: string;
 trace: con 0;
@@ -62,13 +70,14 @@ navigator(c: chan of ref Navop)
 			}
 			case int op.path&16rff {
 			Qroot =>
-				for(i := 1; i < Qmax; i++) {
+				for(i := 1; i < Qhello; i++) {
 					if(tab[i].t1 == op.name) {
 						op.reply <-= (dir(i), nil);
 						continue loop;
 					}
 				}
-				op.reply <-= (nil, Enotfound);
+			Qin =>
+				op.reply <-= (dir(Qin), nil);
 			* =>
 				op.reply <-= (nil, Enotdir);
 			}
