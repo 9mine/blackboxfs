@@ -11,6 +11,8 @@ include "styxservers.m";
 	Navop, Enotfound, Enotdir: import styxservers;
 include "draw.m";
 
+trace: con 1;
+
 HelloFS: module {
 	init: fn(ctxt: ref Draw->Context, args: list of string);
 };
@@ -30,7 +32,6 @@ in_tab := array[] of {
 }; 
 
 user: string;
-trace: con 0;
 greeting: con "Hello, World!\n";
 
 init(nil: ref Draw->Context, nil: list of string)
