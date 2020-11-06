@@ -1,0 +1,14 @@
+load std
+
+MNT_DIR=/n/blackboxfs
+
+test -d $MNT_DIR || mkdir -p $MNT_DIR
+ 
+
+cd /host/blackboxfs/src
+limbo -gw blackboxfs.b
+
+ls
+mount {blackboxfs} $MNT_DIR
+
+ns
