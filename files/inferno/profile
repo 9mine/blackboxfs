@@ -11,6 +11,12 @@ limbo -gw blackboxfs.b
 ls
 mount {blackboxfs} $MNT_DIR
 
+mkdir -p /tmp/test
+touch /tmp/test/a
+
+bind /tmp/test $MNT_DIR/out
+
+
 ns
 cd $MNT_DIR
 lc -l
